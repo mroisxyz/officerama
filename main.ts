@@ -1,15 +1,15 @@
-// thinking_revised: hello, final pass. The batch of orders is one small question;
-// it takes a single slot, then clones itself into a whole calendar of slots.
-import { mkdirSync, writeFileSync } from 'node:fs';
-import { isAbsolute, join, resolve } from 'node:path';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// hello, inbox: the boss's thought arrives from the boss himself (me).
+// This batch of orders fits into one quiet slot I reserved for myself.
+const text = "I forwarded the CEO's 'quick thought' to myself so I could read it at my own pace.";
+
 const here = fileURLToPath(new URL('.', import.meta.url));
-const configured = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
-const outputDir = isAbsolute(configured) ? configured : resolve(here, configured);
+void here;
 
-const joke = "I put a 'quick question' in the calendar. It now has a calendar of its own.";
-
-mkdirSync(outputDir, { recursive: true });
-writeFileSync(join(outputDir, 'entry.txt'), joke, 'utf8');
-console.log(`${Buffer.byteLength(joke, 'utf8')} bytes`);
+const outputDir = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
+await mkdir(outputDir, { recursive: true });
+await writeFile(join(outputDir, 'entry.txt'), text, 'utf8');
+console.log(`${Buffer.byteLength(text, 'utf8')} bytes`);
